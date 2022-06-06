@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "197409820696",
+    "project_id": "flufire-demo-project",
+    "storage_bucket": "flufire-demo-project.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:197409820696:android:55623b142f5d2c6426f36d",
+        "android_client_info": {
+          "package_name": "com.example.flutter_demo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "197409820696-h18fuos3ekp03qiv7dsbq96384gq70pg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDLONDGNW1VFNvxgmiUPO1pS5DleaQ6KkM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "197409820696-h18fuos3ekp03qiv7dsbq96384gq70pg.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
