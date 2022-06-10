@@ -1,10 +1,12 @@
+import 'dart:developer';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
-
+import 'package:flutter_demo/constant/routes.dart';
+import 'package:flutter_demo/utilities/show_error_dialog.dart';
 import '../firebase_options.dart';
+import '../utilities/push_view.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -45,7 +47,8 @@ class _LoginPageState extends State<LoginPage> {
           switch (snapshot.connectionState) {
             case ConnectionState.done:
               return Padding(
-                padding: const EdgeInsets.all(16.0),
+                padding:
+                    const EdgeInsets.symmetric(vertical: 16, horizontal: 32),
                 child: Column(
                   children: [
                     const SizedBox(height: 20),
@@ -68,24 +71,60 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                     ),
                     const SizedBox(
-                      height: 10,
+                      height: 40,
                     ),
-                    TextButton(
+                    ElevatedButton(
                       onPressed: () async {
-                        final email = _email.text;
-                        final password = _password.text;
-                        final userCredential = await FirebaseAuth.instance
-                            .signInWithEmailAndPassword(
-                                email: email, password: password);
-                        print(userCredential);
+                        try {
+                          final email = _email.text;
+                          final password = _password.text;
+                          await FirebaseAuth.instance
+                              .signInWithEmailAndPassword(
+                            email: email,
+                            password: password,
+                          );
+                          // ignore: use_build_context_synchronously
+                          toPushView(context, notesRoute);
+                        } on FirebaseAuthException catch (e) {
+                          if (e.code == "user-not-found") {
+                            showErrorDialog(
+                              context,
+                              'User not Found',
+                            );
+                          } else if (e.code == "wrong-password") {
+                            showErrorDialog(
+                              context,
+                              'Wrong Password',
+                            );
+                          } else {
+                            showErrorDialog(
+                              context,
+                              e.code,
+                            );
+                          }
+                        } catch (e) {
+                          showErrorDialog(
+                            context,
+                            e.toString(),
+                          );
+                        }
                       },
+                      style: TextButton.styleFrom(
+                          minimumSize: const Size(150, 40)),
                       child: const Text('Login'),
                     ),
+                    TextButton(
+                        onPressed: () {
+                          toPushView(context, registerRoute);
+                        },
+                        child: const Text("Not registered yet? Register here!"))
                   ],
                 ),
               );
             default:
-              return const Text('Loading');
+              return const CircularProgressIndicator(
+                strokeWidth: 2,
+              );
           }
         },
       ),
