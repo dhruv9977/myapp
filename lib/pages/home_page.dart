@@ -1,10 +1,8 @@
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_demo/firebase_options.dart';
 import 'package:flutter_demo/pages/login_page.dart';
 import 'package:flutter_demo/pages/note_page.dart';
 import 'package:flutter_demo/pages/verify_email_page.dart';
+import 'package:flutter_demo/services/auth/auth_services.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -12,13 +10,11 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: Firebase.initializeApp(
-        options: DefaultFirebaseOptions.currentPlatform,
-      ),
+      future: AuthSevice.firebase().initialize(),
       builder: (context, snapshot) {
         switch (snapshot.connectionState) {
           case ConnectionState.done:
-            final user = FirebaseAuth.instance.currentUser;
+            final user = AuthSevice.firebase().currentUser;
             if (user != null) {
               return const NotePage();
             } else {

@@ -1,8 +1,6 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_demo/constant/routes.dart';
+import 'package:flutter_demo/services/auth/auth_services.dart';
 import 'package:flutter_demo/utilities/push_view.dart';
 
 enum MenuAction { logout }
@@ -59,7 +57,7 @@ class _NotePageState extends State<NotePage> {
             ),
             TextButton(
               onPressed: () async {
-                await FirebaseAuth.instance.signOut();
+                await AuthSevice.firebase().logOut();
                 // ignore: use_build_context_synchronously
                 toPushView(context, loginRoute);
               },
